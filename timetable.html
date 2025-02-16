@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Time Table</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BASIC 7 TIME TABLE</h1>
+    <table id="timetable">
+        <tr>
+            <th>Days</th>
+            <th>7:30AM-8:00AM</th>
+            <th>8:00AM-9:00AM</th>
+            <th>9:00AM-10:00AM</th>
+            <th>10:00AM-10:30AM</th>
+            <th>10:30AM-11:30AM</th>
+            <th>11:30AM-12:00PM</th>
+            <th>12:00PM-12:30PM</th>
+            <th>12:30PM-1:30PM</th>
+            <th>1:30PM-2:30PM</th>
+            <th>2:30PM-3:00PM</th>
+        </tr>
+        <tr>
+            <td>Monday</td>
+            <td>Morning Assembly</td>
+            <td>English</td>
+            <td>Social Studies</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Career Technology</td>
+            <td>Music</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>Morning Assembly</td>
+            <td>RME</td>
+            <td>Computing</td>
+            <td>Break</td>
+            <td>Asante Twi</td>
+            <td>Career Technology</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Professional Learning</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>Morning Assembly</td>
+            <td>Worship</td>
+            <td>Mathematics</td>
+            <td>Break</td>
+            <td>Science</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Computing</td>
+            <td>Guidance & Counseling</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>Morning Assembly</td>
+            <td>English</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Asante Twi</td>
+            <td>Science</td>
+            <td>Break</td>
+            <td>Social Studies</td>
+            <td>Agriculture</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>Morning Assembly</td>
+            <td>Computing</td>
+            <td>RME</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Science</td>
+            <td>Break</td>
+            <td>Physical Education</td>
+            <td>Sports</td>
+            <td>Closing Assembly</td>
+        </tr>
+    </table>
+    <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+    
+    <script>
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'landscape' });
+           
+  // Add title to the PDF
+        doc.setFontSize(18);
+        doc.text("BASIC 9 TIME TABLE", 140, 15, { align: "center" });
+
+            html2canvas(document.querySelector("#timetable")).then(canvas => {
+                const imgData = canvas.toDataURL("image/png");
+                const imgWidth = 280;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                doc.save("Student_Timetable.pdf");
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Time Table</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BASIC 8 TIME TABLE</h1>
+    <table id="timetable">
+        <tr>
+            <th>Days</th>
+            <th>7:30AM-8:00AM</th>
+            <th>8:00AM-9:00AM</th>
+            <th>9:00AM-10:00AM</th>
+            <th>10:00AM-10:30AM</th>
+            <th>10:30AM-11:30AM</th>
+            <th>11:30AM-12:00PM</th>
+            <th>12:00PM-12:30PM</th>
+            <th>12:30PM-1:30PM</th>
+            <th>1:30PM-2:30PM</th>
+            <th>2:30PM-3:00PM</th>
+        </tr>
+        <tr>
+            <td>Monday</td>
+            <td>Morning Assembly</td>
+            <td>English</td>
+            <td>Social Studies</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Career Technology</td>
+            <td>Music</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>Morning Assembly</td>
+            <td>RME</td>
+            <td>Computing</td>
+            <td>Break</td>
+            <td>Asante Twi</td>
+            <td>Career Technology</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Professional Learning</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>Morning Assembly</td>
+            <td>Worship</td>
+            <td>Mathematics</td>
+            <td>Break</td>
+            <td>Science</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Computing</td>
+            <td>Guidance & Counseling</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>Morning Assembly</td>
+            <td>English</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Asante Twi</td>
+            <td>Science</td>
+            <td>Break</td>
+            <td>Social Studies</td>
+            <td>Agriculture</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>Morning Assembly</td>
+            <td>Computing</td>
+            <td>RME</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Science</td>
+            <td>Break</td>
+            <td>Physical Education</td>
+            <td>Sports</td>
+            <td>Closing Assembly</td>
+        </tr>
+    </table>
+    <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+    
+    <script>
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'landscape' });
+            html2canvas(document.querySelector("#timetable")).then(canvas => {
+                const imgData = canvas.toDataURL("image/png");
+                const imgWidth = 280;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                doc.save("Student_Timetable.pdf");
+            });
+        }
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Time Table</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BASIC 9 TIME TABLE</h1>
+    <table id="timetable">
+        <tr>
+            <th>Days</th>
+            <th>7:30AM-8:00AM</th>
+            <th>8:00AM-9:00AM</th>
+            <th>9:00AM-10:00AM</th>
+            <th>10:00AM-10:30AM</th>
+            <th>10:30AM-11:30AM</th>
+            <th>11:30AM-12:00PM</th>
+            <th>12:00PM-12:30PM</th>
+            <th>12:30PM-1:30PM</th>
+            <th>1:30PM-2:30PM</th>
+            <th>2:30PM-3:00PM</th>
+        </tr>
+        <tr>
+            <td>Monday</td>
+            <td>Morning Assembly</td>
+            <td>English</td>
+            <td>Social Studies</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Career Technology</td>
+            <td>Music</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>Morning Assembly</td>
+            <td>RME</td>
+            <td>Computing</td>
+            <td>Break</td>
+            <td>Asante Twi</td>
+            <td>Career Technology</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Professional Learning</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>Morning Assembly</td>
+            <td>Worship</td>
+            <td>Mathematics</td>
+            <td>Break</td>
+            <td>Science</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Computing</td>
+            <td>Guidance & Counseling</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>Morning Assembly</td>
+            <td>English</td>
+            <td>Creative Art & Design</td>
+            <td>Break</td>
+            <td>Asante Twi</td>
+            <td>Science</td>
+            <td>Break</td>
+            <td>Social Studies</td>
+            <td>Agriculture</td>
+            <td>Closing Assembly</td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>Morning Assembly</td>
+            <td>Computing</td>
+            <td>RME</td>
+            <td>Break</td>
+            <td>Mathematics</td>
+            <td>Science</td>
+            <td>Break</td>
+            <td>Physical Education</td>
+            <td>Sports</td>
+            <td>Closing Assembly</td>
+        </tr>
+    </table>
+    <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+    
+    <script>
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'landscape' });
+            html2canvas(document.querySelector("#timetable")).then(canvas => {
+                const imgData = canvas.toDataURL("image/png");
+                const imgWidth = 280;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                doc.save("Student_Timetable.pdf");
+            });
+        }
+    </script>
+</body>
+</html>

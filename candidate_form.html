@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .edit-btn, .delete-btn {
+            padding: 5px 10px;
+            margin: 2px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            const table = document.querySelector("table tbody");
+            const searchInput = document.getElementById("search");
+            let storedData = JSON.parse(localStorage.getItem("candidateData")) || [];
+            let editIndex = -1;
+            let studentIdCounter = storedData.length > 0 ? parseInt(storedData[storedData.length - 1].studentId.slice(3)) + 1 : 1;
+            
+            function generateStudentId() {
+                return "APJ" + studentIdCounter.toString().padStart(3, '0');
+            }
+            
+            function renderTable(searchQuery = "") {
+                table.innerHTML = "";
+                storedData.forEach((data, index) => {
+                    if (data.name.toLowerCase().includes(searchQuery.toLowerCase()) || data.studentId.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${data.studentId}</td>
+                            <td>${data.name}</td>
+                            <td>${data.dob}</td>
+                            <td>${data.gender}</td>
+                            <td>${data.contact}</td>
+                            <td>${data.level}</td>
+                            <td>${data.house}</td>
+                            <td>${data.residence}</td>
+                            <td>
+                                <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
+                                <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+                            </td>
+                        `;
+                        table.appendChild(row);
+                    }
+                });
+            }
+            
+            window.editEntry = function(index) {
+                editIndex = index;
+                const entry = storedData[index];
+                document.getElementById("candidate-name").value = entry.name;
+                document.getElementById("dob").value = entry.dob;
+                document.getElementById("gender").value = entry.gender;
+                document.getElementById("parent-contact").value = entry.contact;
+                document.getElementById("level").value = entry.level;
+                document.getElementById("house").value = entry.house;
+                document.getElementById("residence").value = entry.residence;
+            };
+            
+            window.deleteEntry = function(index) {
+                storedData.splice(index, 1);
+                localStorage.setItem("candidateData", JSON.stringify(storedData));
+                renderTable(searchInput.value);
+            };
+            
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const studentId = generateStudentId();
+                studentIdCounter++;
+                
+                const candidateName = document.getElementById("candidate-name").value;
+                const dob = document.getElementById("dob").value;
+                const gender = document.getElementById("gender").value;
+                const parentContact = document.getElementById("parent-contact").value;
+                const level = document.getElementById("level").value;
+                const house = document.getElementById("house").value;
+                const residence = document.getElementById("residence").value;
+                
+                if (editIndex === -1) {
+                    storedData.push({
+                        studentId: studentId,
+                        name: candidateName,
+                        dob: dob,
+                        gender: gender,
+                        contact: parentContact,
+                        level: level,
+                        house: house,
+                        residence: residence
+                    });
+                } else {
+                    storedData[editIndex] = {
+                        studentId: storedData[editIndex].studentId,
+                        name: candidateName,
+                        dob: dob,
+                        gender: gender,
+                        contact: parentContact,
+                        level: level,
+                        house: house,
+                        residence: residence
+                    };
+                    editIndex = -1;
+                }
+                
+                localStorage.setItem("candidateData", JSON.stringify(storedData));
+                renderTable(searchInput.value);
+                form.reset();
+            });
+            
+            searchInput.addEventListener("input", function () {
+                renderTable(searchInput.value);
+            });
+
+            document.getElementById("generate-pdf").addEventListener("click", function () {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                let y = 10;
+                storedData.forEach(data => {
+                    doc.text(`ID: ${data.studentId}, Name: ${data.name}, Level: ${data.level}, House: ${data.house}`, 10, y);
+                    y += 10;
+                });
+                doc.save("students.pdf");
+            });
+
+            renderTable();
+        });
+    </script>
+</head>
+<body>
+    <form>
+        <label for="candidate-name">Name of Candidate:</label>
+        <input type="text" id="candidate-name" required>
+
+        <label for="dob">Candidate Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" required>
+            <option value="Male">SELECT</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="parent-contact">Parent/Guardian Contact:</label>
+        <input type="tel" id="parent-contact" pattern="[0-9]{10}" placeholder="Enter 10-digit number" required>
+
+        <label for="level">Level:</label>
+        <select id="level">
+            <option>SELECT</option><option>NURSERY</option>
+            <option>KG1</option><option>KG2</option>
+            <option>BS1</option><option>BS2</option><option>BS3</option>
+            <option>BS4</option><option>BS5</option><option>BS6</option>
+            <option>BS7</option><option>BS8</option><option>BS9</option>
+        </select>
+
+        <label for="house">House:</label>
+        <select id="house">
+            <option>SELECT</option>
+            <option>Red</option>
+            <option>Green</option>
+            <option>Blue</option>
+            <option>Yellow</option>
+        </select>
+
+        <label for="residence">Residence:</label>
+        <input type="text" id="residence" required>
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <input type="text" id="search" placeholder="Search by Name or ID">
+    <button id="generate-pdf">Generate PDF</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Name of Candidate</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Guardian Contact</th>
+                <th>Level</th>
+                <th>House</th>
+                <th>Residence</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+</html>

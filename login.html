@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+        .logo {
+            width:310px;
+            height: auto;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .forgot-password {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        .contact {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+        #reset-message {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="log.png" alt="Logo" class="logo">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <p id="error" style="color: red; display: none;">Invalid Credentials</p>
+
+        <!-- Forgot Password -->
+        <p class="forgot-password" onclick="resetPassword()">Forgot Password?</p>
+        <p id="reset-message">Password reset successfully! Your new password is <b>123456</b></p>
+
+        <!-- Contact Details -->
+        <p class="contact"><strong>Edward:</strong> 0244888885 / 0200100005</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem("users")) {
+                localStorage.setItem("users", JSON.stringify([{ username: "admin", password: "admin123" }]));
+            }
+        });
+
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            
+            const validUser = users.find(user => user.username === username && user.password === password);
+            
+            if (validUser) {
+                sessionStorage.setItem("loggedIn", "true");
+                window.location.href = "index.html";
+            } else {
+                document.getElementById("error").style.display = "block";
+            }
+        }
+
+        function resetPassword() {
+            const username = document.getElementById("username").value;
+            if (!username) {
+                alert("Please enter your username to reset the password.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let userIndex = users.findIndex(user => user.username === username);
+
+            if (userIndex !== -1) {
+                users[userIndex].password = "123456"; // Reset to default password
+                localStorage.setItem("users", JSON.stringify(users));
+                document.getElementById("reset-message").style.display = "block";
+            } else {
+                alert("Username not found!");
+            }
+        }
+    </script>
+</body>
+</html>

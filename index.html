@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!sessionStorage.getItem("loggedIn")) {
+                window.location.href = "login.html";
+            }
+        });
+
+        function loadPage(page) {
+            document.getElementById("main-content").innerHTML = `<iframe src="${page}" width="100%" height="800px" style="border:none;"></iframe>`;
+        }
+
+        function logout() {
+            sessionStorage.removeItem("loggedIn");
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <style>
+        body {
+    display: flex;
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+/* Sidebar Links */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+/* Sidebar Icons */
+.sidebar a i {
+    margin-right: 10px;
+}
+
+/* Hover Effect */
+.sidebar a:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Dropdown Arrow */
+.sidebar .dropdown-toggle i:last-child {
+    margin-left: auto;
+    transition: 0.3s;
+}
+
+/* Submenu Styling */
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.submenu a {
+    padding: 8px 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Submenu Hover */
+.submenu a:hover {
+    background: #e9ecef;
+    color: #007bff;
+}
+
+/* Profile Section */
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #ddd;
+}
+
+.profile p {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+#main-content iframe {
+    width: 300%;
+    height: 90vh; /* Adjust height as needed */
+    border: none;
+}
+
+
+        /* Hide images initially */
+        .certificateImage {
+            display: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 10px;
+        }
+
+        /* Fullscreen overlay */
+        #fullscreenOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Fullscreen image */
+        #fullscreenImage {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        /* Close button */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <nav class="sidebar">
+        <div class="profile">
+            <img src="edward.png" class="rounded-circle" alt="Admin">
+            <p><strong>CAMP JUNCTION CIRCUIT</strong></p>
+        </div>
+
+    <a href="#" onclick="loadPage('dashboard.html')"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+
+    <a class="dropdown-toggle"><i class="fas fa-users"></i>2025 SPORTS <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+
+    <a href="#" onclick="loadPage('fixtures.html')">LEAGUE TABLE</a>
+        
+        <a href="#" onclick="loadPage('progress.html')">PROGRESS BAR</a>
+        
+    </div>
+
+
+
+<a class="dropdown-toggle"><i class="fa-solid fa-chalkboard-user"></i>CERTIFICATE<i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">   
+         <a href="#" onclick="toggleImage('cert1')">Cert One</a>
+                <a href="#" onclick="toggleImage('cert2')">Cert Two</a>
+                <a href="#" onclick="toggleImage('cert3')">Cert Three</a>
+                <a href="#" onclick="toggleImage('cert4')">Cert Four</a>
+        </div>
+
+    </div>
+
+
+    <!-- Certificate Images (Hidden by Default) -->
+    <img id="cert1" class="certificateImage" src="img/cert1.png" alt="Certificate 1" onclick="openFullscreen(this.src)">
+    <img id="cert2" class="certificateImage" src="img/cert2.png" alt="Certificate 2" onclick="openFullscreen(this.src)">
+    <img id="cert3" class="certificateImage" src="img/cert3.png" alt="Certificate 3" onclick="openFullscreen(this.src)">
+    <img id="cert4" class="certificateImage" src="img/cert4.png" alt="Certificate 4" onclick="openFullscreen(this.src)">
+      
+       <!-- Fullscreen View -->
+    <div id="fullscreenOverlay" onclick="closeFullscreen()">
+        <span class="close-btn">&times;</span>
+        <img id="fullscreenImage">
+    </div>
+
+
+
+
+    <a class="dropdown-toggle"><i class="fas fa-book"></i> Assessment <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+      <a href="#" onclick="loadPage('grading.html')"><i class="fas fa-file-alt"></i>Mock Exams</a>
+ <a href="#" onclick="loadPage('report.html')"><i class="fas fa-file-alt"></i>End of Term Exams</a>
+<a href="#" onclick="loadPage('candidate_form.html')">REGISTRATION FORM</a>
+    </div>
+
+    <a class="dropdown-toggle"><i class="fas fa-cogs"></i> Settings <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+        <a href="#" onclick="loadPage('term_school.html')">Term and School</a>
+        <a href="#" onclick="loadPage('user_permissions.html')">User Permissions</a>
+        <a href="#" onclick="loadPage('migrate_class.html')">Migrate Class</a>
+    </div>
+
+    <a class="dropdown-toggle"><i class="fas fa-tools"></i> Utilities <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+        <a href="#" onclick="loadPage('student_attendance.html')">Student Attendance</a>
+        <a href="#" onclick="loadPage('academic_records.html')">Academic Records</a>
+        <a href="#" onclick="loadPage('grading_system.html')">Grading System</a>
+        <a href="#" onclick="loadPage('login_activities.html')">Login Activities</a>
+        <a href="#" onclick="loadPage('old_student.html')">Old Student</a>
+        <a href="#" onclick="loadPage('my_profile.html')">My Profile</a>
+    </div>
+
+    <a class="dropdown-toggle"><i class="fas fa-envelope"></i> Email & SMS <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+        <a href="#" onclick="loadPage('general_sms.html')">General SMS</a>
+        <a href="#" onclick="loadPage('results_sms.html')">Results SMS</a>
+        <a href="#" onclick="loadPage('email_message.html')">Email Message</a>
+    </div>
+
+    <a class="dropdown-toggle"><i class="fas fa-chalkboard-teacher"></i> eLearning <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+        <a href="#" onclick="loadPage('ebooks.html')">E-books</a>
+        <a href="#" onclick="loadPage('lesson_video.html')">Lesson Video</a>
+        <a href="#" onclick="loadPage('live_session.html')">Live Session</a>
+        <a href="https://ecedtechdigitalacademy.github.io/Pre-school/" target="_blank"><i class="fas fa-book"></i>Website</a>
+        <a href="#" onclick="loadPage('assignment.html')">Assignment</a>
+    </div>
+
+    <a class="dropdown-toggle"><i class="fas fa-money-bill-wave"></i> Finance <i class="fas fa-chevron-down"></i></a>
+    <div class="submenu">
+        <a href="#" onclick="loadPage('school_fees.html')">School Fees</a>
+        <a href="#" onclick="loadPage('debit_credit.html')">Debit and Credit</a>
+        <a href="#" onclick="loadPage('salary.html')">Salary</a>
+        <a href="#" onclick="loadPage('income.html')">Income</a>
+        <a href="#" onclick="loadPage('expenses.html')">Expenses</a>
+        <a href="#" onclick="loadPage('financial_report.html')">Financial Report</a>
+        <a href="#" onclick="loadPage('bus_feeding_fee.html')">Bus & Feeding Fee</a>
+        <a href="#" onclick="loadPage('special_payment.html')">Special Payment</a>
+        <a href="#" onclick="loadPage('take_overdraft.html')">Take Overdraft</a>
+        <a href="#" onclick="loadPage('subscription_fee.html')">Subscription Fee</a>
+    </div>
+
+ <a href="#" onclick="loadPage('create_user.html')"><i class="fas fa-user-plus"></i> Create User</a>
+
+    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</nav>
+<div id="main-content"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let dropdowns = document.querySelectorAll(".dropdown-toggle");
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener("click", function () {
+                // Close all open submenus except the clicked one
+                document.querySelectorAll(".submenu").forEach(menu => {
+                    if (menu !== this.nextElementSibling) {
+                        menu.style.display = "none";
+                    }
+                });
+
+                // Toggle the clicked submenu
+                let submenu = this.nextElementSibling;
+                submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+
+                // Rotate arrow
+                let arrow = this.querySelector(".fa-chevron-down");
+                document.querySelectorAll(".fa-chevron-down").forEach(icon => {
+                    if (icon !== arrow) icon.style.transform = "rotate(0deg)";
+                });
+                arrow.style.transform = (submenu.style.display === "block") ? "rotate(180deg)" : "rotate(0deg)";
+            });
+        });
+    });
+
+     function toggleImage(certId) {
+            // Hide all images
+            var images = document.getElementsByClassName("certificateImage");
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.display = "none";
+            }
+
+            // Show the selected image
+            var img = document.getElementById(certId);
+            if (img) {
+                img.style.display = "block";
+            }
+        }
+
+        function openFullscreen(src) {
+            var fullscreenOverlay = document.getElementById("fullscreenOverlay");
+            var fullscreenImage = document.getElementById("fullscreenImage");
+
+            fullscreenImage.src = src;
+            fullscreenOverlay.style.display = "flex";
+        }
+
+        function closeFullscreen() {
+            document.getElementById("fullscreenOverlay").style.display = "none";
+        }
+</script>
